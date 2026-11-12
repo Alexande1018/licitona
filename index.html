@@ -1,63 +1,424 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Licitona — Vigilancia de licitaciones públicas</title>
-<meta name="description" content="Cada mañana, en tu correo, solo las licitaciones públicas que encajan con tu empresa. Filtradas por sector, importe y plazo.">
-<style>
-  :root { --tinta:#101820; --gris:#5b6b7a; --linea:#e3e9ef; --acento:#0b6cf0; --fondo:#fbfcfe; }
-  * { box-sizing:border-box; }
-  body { margin:0; font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-         color:var(--tinta); background:var(--fondo); }
-  .wrap { max-width:820px; margin:0 auto; padding:28px 22px 64px; }
-  header { display:flex; align-items:center; gap:10px; padding:8px 0 40px; }
-  .logo { width:28px; height:28px; border-radius:8px; background:var(--tinta); position:relative; }
-  .logo::after { content:""; position:absolute; inset:8px 8px 8px 8px; border-radius:2px; background:var(--acento); }
-  .marca { font-weight:700; letter-spacing:-.02em; }
-  h1 { font-size:clamp(30px,5.5vw,46px); line-height:1.1; letter-spacing:-.03em; margin:0 0 18px; }
-  .sub { font-size:clamp(17px,2.4vw,21px); color:var(--gris); margin:0 0 34px; max-width:38ch; }
-  ul { list-style:none; padding:0; margin:0 0 38px; display:grid; gap:14px; }
-  li { padding-left:34px; position:relative; }
-  li::before { content:""; position:absolute; left:8px; top:.62em; width:9px; height:9px; border-radius:50%;
-               background:var(--acento); }
-  .caja { border:1px solid var(--linea); background:#fff; border-radius:16px; padding:26px; margin:0 0 28px; }
-  .precio { font-size:38px; font-weight:700; letter-spacing:-.03em; margin:0; }
-  .precio span { font-size:15px; font-weight:500; color:var(--gris); letter-spacing:0; }
-  .cta { display:inline-block; background:var(--tinta); color:#fff; text-decoration:none; font-weight:600;
-         padding:14px 22px; border-radius:11px; margin-top:18px; }
-  .cta:hover { background:#000; }
-  .nota { font-size:14px; color:var(--gris); border-left:3px solid var(--linea); padding-left:14px; margin:26px 0 0; }
-  footer { margin-top:56px; padding-top:20px; border-top:1px solid var(--linea); font-size:13px; color:var(--gris); }
-  a { color:var(--acento); }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5f0">
+  <meta name="description" content="Licitona: un correo cada mañana con las licitaciones públicas que encajan con tu pyme. 149 €/mes, sin permanencia.">
+  <title>Licitona · Las licitaciones que encajan con tu empresa</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f5f0;
+      --paper: #fff;
+      --ink: #202c29;
+      --muted: #57635d;
+      --line: #d7dcd5;
+      --accent: #17634f;
+      --accent-dark: #104735;
+      --tint: #eaf1eb;
+      --max: 1160px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 17px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-underline-offset: .22em; }
+    a:hover { color: var(--accent-dark); }
+    a, button, summary { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
+    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3 { line-height: 1.13; font-weight: 650; }
+    h1 { font-size: clamp(2.65rem, 5.3vw, 4.5rem); letter-spacing: -.055em; }
+    h2 { font-size: clamp(2rem, 3.5vw, 3rem); letter-spacing: -.04em; }
+    h3 { font-size: 1.2rem; letter-spacing: -.02em; }
+    p + p { margin-top: 1rem; }
+    .wrap { width: min(var(--max), calc(100% - 48px)); margin-inline: auto; }
+    .skip {
+      position: absolute; left: 24px; top: -100px; z-index: 10;
+      padding: 12px 20px; background: var(--paper);
+    }
+    .skip:focus { top: 12px; }
+    .site-header { border-bottom: 1px solid var(--line); }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 100px; }
+    .brand { color: var(--ink); font-size: 1.6rem; font-weight: 750; letter-spacing: -.06em; text-decoration: none; }
+    .brand::after { content: ""; display: inline-block; width: 8px; height: 8px; margin-left: 5px; background: var(--accent); }
+    .nav ul { display: flex; flex-wrap: wrap; gap: 12px 28px; margin: 0; padding: 0; list-style: none; }
+    .nav li a { color: var(--ink); font-size: .9rem; text-decoration: none; padding-block: 8px; }
+    .nav li a:hover { color: var(--accent); text-decoration: underline; }
+    .eyebrow { color: var(--accent); font-size: .75rem; font-weight: 750; letter-spacing: .13em; text-transform: uppercase; }
+    .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; padding-block: 86px 96px; }
+    .hero h1 { margin-top: 20px; }
+    .hero-copy > p.description { margin-top: 26px; max-width: 32rem; font-size: 1.12rem; color: var(--muted); }
+    .button {
+      display: inline-flex; justify-content: center; align-items: center;
+      min-height: 54px; padding: 13px 25px; border: 1px solid var(--accent);
+      border-radius: 4px; background: var(--accent); color: #fff;
+      text-decoration: none; font-size: 1rem; font-weight: 650;
+      transition: background .15s ease, border-color .15s ease;
+    }
+    .button:hover { background: var(--accent-dark); border-color: var(--accent-dark); color: #fff; }
+    .hero .button { margin-top: 30px; }
+    .small { font-size: .82rem; color: var(--muted); }
+    .hero .small { margin-top: 12px; }
+    .preview-stage {
+      position: relative; padding: 28px 0 28px 24px;
+      background-image: radial-gradient(#b7c6ba .8px, transparent .8px);
+      background-size: 12px 12px;
+    }
+    .mail-card {
+      position: relative; border: 1px solid #c7d1c9; border-radius: 8px;
+      background: var(--paper); box-shadow: 0 18px 40px -28px #263e32;
+      overflow: hidden;
+    }
+    .mail-top { padding: 17px 22px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+    .mail-top strong { font-size: .9rem; }
+    .mail-top span { color: var(--muted); font-size: .72rem; }
+    .mail-intro { padding: 23px 22px 14px; }
+    .mail-intro h2 { font-size: 1.35rem; letter-spacing: -.025em; margin-top: 5px; }
+    .mail-intro p { font-size: .8rem; color: var(--muted); margin-top: 7px; }
+    .opportunity { margin-inline: 22px; padding-block: 16px; border-top: 1px solid var(--line); }
+    .tag { display: inline-block; padding: 2px 7px; border-radius: 3px; background: var(--tint); color: var(--accent-dark); font-size: .66rem; font-weight: 700; }
+    .opportunity h3 { margin-top: 8px; font-size: .94rem; line-height: 1.35; }
+    .organism { margin-top: 4px; color: var(--muted); font-size: .76rem; }
+    .facts { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 5px 14px; margin-top: 10px; font-size: .74rem; }
+    .facts strong { font-variant-numeric: tabular-nums; }
+    .mail-foot { padding: 13px 22px; border-top: 1px solid var(--line); color: var(--muted); font-size: .7rem; background: #fafbf8; }
+    .section { padding-block: 80px; border-top: 1px solid var(--line); }
+    .section-heading { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; margin-bottom: 42px; }
+    .section-heading h2 { margin-top: 13px; max-width: 580px; }
+    .section-heading > p { color: var(--muted); padding-top: 35px; max-width: 440px; }
+    .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+    .problem-item { border-left: 2px solid var(--line); padding-left: 22px; }
+    .problem-item p, .steps p { color: var(--muted); margin-top: 14px; font-size: .96rem; }
+    .steps { list-style: none; padding: 0; margin: 0; counter-reset: steps; gap: 0; }
+    .steps li { counter-increment: steps; position: relative; padding: 0 34px 0 0; }
+    .steps li::before {
+      content: "0" counter(steps); display: block; width: 46px; height: 46px;
+      border: 1px solid var(--accent); border-radius: 50%; background: var(--bg);
+      color: var(--accent); font-size: .85rem; font-weight: 700;
+      line-height: 44px; text-align: center; position: relative; z-index: 1; margin-bottom: 24px;
+    }
+    .steps li:not(:last-child)::after { content: ""; position: absolute; top: 23px; left: 46px; right: 0; height: 1px; background: var(--line); }
+    .example-section { background: var(--tint); }
+    .email { max-width: 820px; margin-inline: auto; background: var(--paper); border: 1px solid #c7d1c9; border-radius: 6px; }
+    .email-header { padding: 26px 36px; border-bottom: 1px solid var(--line); }
+    .email-header p { font-size: .85rem; margin-top: 5px; overflow-wrap: anywhere; }
+    .email-header span { color: var(--muted); }
+    .email-body { padding: 30px 36px; }
+    .email-body > p { font-size: .95rem; }
+    .email-body .opportunity { margin-inline: 0; padding-block: 22px; }
+    .email-body .opportunity:first-of-type { margin-top: 24px; }
+    .email-body .opportunity h3 { font-size: 1.05rem; }
+    .email-body .organism, .email-body .facts { font-size: .85rem; }
+    .summary { margin-top: 12px; font-size: .9rem; color: var(--muted); }
+    .example-note { max-width: 820px; margin: 15px auto 0; font-size: .8rem; color: var(--muted); }
+    .price-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .price-copy h2 { margin-top: 14px; }
+    .price-copy > p { color: var(--muted); margin-top: 22px; max-width: 460px; }
+    .founders { border-left: 3px solid var(--accent); padding-left: 20px; }
+    .price-card { background: var(--paper); border: 1px solid var(--line); border-top: 3px solid var(--accent); padding: 36px; border-radius: 4px; }
+    .price { margin-top: 14px; font-size: clamp(3rem, 5vw, 4rem); line-height: 1.1; letter-spacing: -.055em; font-weight: 650; }
+    .price span { font-size: 1rem; font-weight: 400; letter-spacing: 0; color: var(--muted); }
+    .price-card > p.small { margin-top: 9px; }
+    .included { list-style: none; margin: 26px 0; padding: 0; }
+    .included li { padding: 11px 0 11px 23px; border-top: 1px solid var(--line); position: relative; font-size: .95rem; }
+    .included li::before { content: ""; width: 6px; height: 6px; background: var(--accent); position: absolute; left: 0; top: 23px; }
+    .price-card .button { width: 100%; }
+    .faq-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 80px; }
+    .faq-layout h2 { margin-top: 14px; }
+    details { border-bottom: 1px solid var(--line); }
+    details:first-child { border-top: 1px solid var(--line); }
+    summary { position: relative; padding: 23px 36px 23px 0; cursor: pointer; font-weight: 600; list-style: none; line-height: 1.5; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; position: absolute; right: 3px; top: 20px; color: var(--accent); font-size: 1.4rem; font-weight: 400; }
+    details[open] summary::after { content: "−"; }
+    summary:hover { color: var(--accent); }
+    details p { padding: 0 30px 25px 0; color: var(--muted); font-size: .95rem; }
+    .closing { padding-block: 72px; border-top: 1px solid var(--line); }
+    .closing-inner { display: flex; justify-content: space-between; align-items: center; gap: 40px; }
+    .closing h2 { max-width: 650px; }
+    .closing p { color: var(--muted); margin-top: 16px; }
+    .closing .button { flex-shrink: 0; }
+    footer { border-top: 1px solid var(--line); padding-block: 32px; }
+    .footer-top { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .footer-top > a:last-child { font-size: .9rem; overflow-wrap: anywhere; }
+    .source-note { margin-top: 22px; max-width: 850px; color: var(--muted); font-size: .78rem; }
+
+    @media (min-width: 1400px) { .hero { gap: 88px; } }
+    @media (max-width: 900px) {
+      .hero { gap: 32px; }
+      .price-layout, .faq-layout { gap: 40px; }
+      .section-heading { gap: 32px; }
+      .three-col { gap: 24px; }
+      .steps { gap: 0; }
+    }
+    @media (max-width: 720px) {
+      .wrap { width: calc(100% - 40px); }
+      .nav { min-height: auto; padding-block: 20px; display: block; }
+      .nav ul { margin-top: 15px; justify-content: space-between; gap: 8px 12px; }
+      .nav li a { font-size: .78rem; display: inline-block; }
+      .hero { grid-template-columns: 1fr; padding-block: 48px 54px; gap: 38px; }
+      .hero-copy > p.description { font-size: 1.04rem; }
+      .preview-stage { padding: 16px 0 16px 12px; }
+      .section { padding-block: 52px; }
+      .section-heading, .price-layout, .faq-layout { grid-template-columns: 1fr; gap: 26px; }
+      .section-heading { margin-bottom: 30px; }
+      .section-heading > p { padding-top: 0; }
+      .three-col { grid-template-columns: 1fr; gap: 28px; }
+      .steps { gap: 0; }
+      .steps li { padding: 0 0 34px 68px; min-height: 130px; }
+      .steps li:last-child { padding-bottom: 0; }
+      .steps li::before { position: absolute; left: 0; top: 0; margin: 0; }
+      .steps li:not(:last-child)::after { left: 23px; top: 46px; bottom: 0; width: 1px; height: auto; right: auto; }
+      .steps h3 { padding-top: 10px; }
+      .email-header, .email-body { padding: 23px 20px; }
+      .price-card { padding: 28px 24px; }
+      .closing { padding-block: 52px; }
+      .closing-inner { align-items: flex-start; flex-direction: column; gap: 25px; }
+      .footer-top { align-items: flex-start; flex-direction: column; gap: 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .button { transition: none; }
+    }
+  </style>
 </head>
 <body>
-<div class="wrap">
+  <a class="skip" href="#contenido">Saltar al contenido</a>
 
-  <header><div class="logo" aria-hidden="true"></div><div class="marca">Licitona</div></header>
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="Navegación principal">
+      <a class="brand" href="#" aria-label="Licitona, inicio">Licitona</a>
+      <ul>
+        <li><a href="#como-funciona">Cómo funciona</a></li>
+        <li><a href="#ejemplo">Ejemplo</a></li>
+        <li><a href="#precio">Precio</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
 
-  <h1>Cada mañana, en tu correo, solo las licitaciones que te interesan.</h1>
-  <p class="sub">La plataforma pública publica miles de licitaciones al año. Tu empresa no puede leerlas todas. Nosotros sí.</p>
+  <main id="contenido">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Licitaciones públicas · En tu correo</p>
+        <h1 id="hero-title">Tu próximo contrato empieza por enterarte a tiempo.</h1>
+        <p class="description">Cada mañana, las licitaciones que encajan con tu pyme. Filtradas por sector e importe y resumidas para que decidas cuáles merece la pena revisar.</p>
+        <a class="button" href="mailto:gestionlicitona@gmail.com?subject=Quiero%20probar%20Licitona">Quiero probarlo</a>
+        <p class="small">149 €/mes · Sin permanencia</p>
+      </div>
 
-  <ul>
-    <li><strong>Filtradas por tu negocio.</strong> Sector, importe mínimo, ámbito geográfico y tipo de contrato. Lo que no encaja, no te llega.</li>
-    <li><strong>El mismo día que se publican.</strong> No un resumen semanal: el plazo para presentarse no espera.</li>
-    <li><strong>En tres líneas.</strong> Qué piden, cuánto pagan y hasta cuándo. Si quieres el pliego, vas al enlace oficial.</li>
-  </ul>
+      <div class="preview-stage">
+        <article class="mail-card" aria-label="Maqueta del correo diario con tres licitaciones ilustrativas">
+          <div class="mail-top">
+            <strong>Licitona / Aviso diario</strong>
+            <span>Vista de ejemplo</span>
+          </div>
+          <div class="mail-intro">
+            <p class="eyebrow">Tu selección de hoy</p>
+            <h2>Tres oportunidades para revisar.</h2>
+            <p>Sector, importe y plazo. Lo esencial, a primera vista.</p>
+          </div>
 
-  <div class="caja">
-    <p class="precio">149 €<span> / mes · sin permanencia</span></p>
-    <p style="color:var(--gris);margin:6px 0 0">Una licitación que ganes paga años de servicio. Una que pierdas por enterarte tarde, no.</p>
-    <a class="cta" href="mailto:gestionlicitona@gmail.com?subject=Quiero%20probar%20Licitona&body=Hola%3A%0A%0AMi%20empresa%20se%20dedica%20a%20...%20y%20me%20interesan%20licitaciones%20de%20...%0A%0AMi%20tel%C3%A9fono%3A%20">Quiero probarlo</a>
-  </div>
+          <article class="opportunity">
+            <span class="tag">Mantenimiento</span>
+            <h3>Mantenimiento de edificios municipales</h3>
+            <p class="organism">Ayuntamiento de Villa del Río</p>
+            <div class="facts"><strong>48.000 € sin IVA</strong><span>Plazo: 25 de noviembre</span></div>
+          </article>
+          <article class="opportunity">
+            <span class="tag">Servicios profesionales</span>
+            <h3>Asistencia contable y fiscal</h3>
+            <p class="organism">Mancomunidad Sierra del Sur</p>
+            <div class="facts"><strong>32.000 € sin IVA</strong><span>Plazo: 28 de noviembre</span></div>
+          </article>
+          <article class="opportunity">
+            <span class="tag">Informática</span>
+            <h3>Suministro de equipos informáticos</h3>
+            <p class="organism">Consorcio Comarcal de Servicios</p>
+            <div class="facts"><strong>24.500 € sin IVA</strong><span>Plazo: 30 de noviembre</span></div>
+          </article>
+          <p class="mail-foot">Ejemplo ilustrativo. Los anuncios y sus datos son ficticios.</p>
+        </article>
+      </div>
+    </section>
 
-  <p class="nota">Estamos empezando y lo decimos: la primera versión se construye con los primeros diez clientes. Si pruebas y no te sirve, te lo digo antes de cobrarte.</p>
+    <section class="section" aria-labelledby="problema-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">El problema</p>
+            <h2 id="problema-title">Cuando te enteras tarde, queda menos margen.</h2>
+          </div>
+          <p>Llevar una empresa ya ocupa el día. Seguir la contratación pública no debería convertirse en otro trabajo.</p>
+        </div>
+        <div class="three-col">
+          <article class="problem-item">
+            <h3>Buscar consume tiempo</h3>
+            <p>Revisar anuncios, descartar los que no encajan y localizar los datos útiles interrumpe tu trabajo diario.</p>
+          </article>
+          <article class="problem-item">
+            <h3>Los plazos no esperan</h3>
+            <p>Una oportunidad descubierta tarde puede dejarte sin tiempo para reunir documentos y preparar una propuesta.</p>
+          </article>
+          <article class="problem-item">
+            <h3>El ruido distrae</h3>
+            <p>Entre contratos ajenos a tu actividad, resulta más difícil identificar aquellos que sí merece la pena estudiar.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap" id="como-funciona" aria-labelledby="funciona-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Cómo funciona</p>
+          <h2 id="funciona-title">De tu actividad a tu bandeja de entrada.</h2>
+        </div>
+        <p>Sin aprender a usar otra herramienta. El punto de partida es conocer qué hace tu empresa.</p>
+      </div>
+      <ol class="three-col steps">
+        <li>
+          <h3>Nos cuentas qué buscas</h3>
+          <p>Definimos contigo los sectores y el rango de importes que tienen sentido para tu negocio.</p>
+        </li>
+        <li>
+          <h3>Filtramos los anuncios</h3>
+          <p>Revisamos las publicaciones de la Plataforma de Contratación del Sector Público según tus criterios.</p>
+        </li>
+        <li>
+          <h3>Recibes tu selección</h3>
+          <p>Cada mañana, un correo con lo esencial y el enlace al anuncio oficial. Tú decides qué revisar y si presentarte.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section example-section" id="ejemplo" aria-labelledby="ejemplo-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Ejemplo del aviso</p>
+            <h2 id="ejemplo-title">Un correo que va al grano.</h2>
+          </div>
+          <p>Lo necesario para una primera valoración. Los requisitos completos se consultan siempre en el anuncio y los pliegos oficiales.</p>
+        </div>
+        <article class="email" aria-label="Ejemplo ilustrativo del contenido del correo">
+          <header class="email-header">
+            <p><span>De:</span> <strong>Licitona</strong></p>
+            <p><span>Para:</span> Tu empresa</p>
+            <p><span>Asunto:</span> Tu selección diaria · 3 licitaciones que revisar</p>
+          </header>
+          <div class="email-body">
+            <p>Buenos días.</p>
+            <p>Estas son las oportunidades que coinciden con los sectores e importes de tu selección:</p>
+
+            <article class="opportunity">
+              <span class="tag">Mantenimiento</span>
+              <h3>01. Mantenimiento de edificios municipales</h3>
+              <p class="organism">Ayuntamiento de Villa del Río</p>
+              <div class="facts"><strong>48.000 € sin IVA</strong><span>Plazo: 25 de noviembre</span></div>
+              <p class="summary">Servicio de mantenimiento preventivo y pequeñas reparaciones.<br>Actuaciones en edificios de uso municipal.<br>Revisa en los pliegos los medios y la solvencia exigidos.</p>
+            </article>
+            <article class="opportunity">
+              <span class="tag">Servicios profesionales</span>
+              <h3>02. Asistencia contable y fiscal</h3>
+              <p class="organism">Mancomunidad Sierra del Sur</p>
+              <div class="facts"><strong>32.000 € sin IVA</strong><span>Plazo: 28 de noviembre</span></div>
+              <p class="summary">Apoyo externo en tareas contables y obligaciones fiscales.<br>Servicio dirigido a una entidad de ámbito comarcal.<br>Revisa el alcance y la experiencia profesional requerida.</p>
+            </article>
+            <article class="opportunity">
+              <span class="tag">Informática</span>
+              <h3>03. Suministro de equipos informáticos</h3>
+              <p class="organism">Consorcio Comarcal de Servicios</p>
+              <div class="facts"><strong>24.500 € sin IVA</strong><span>Plazo: 30 de noviembre</span></div>
+              <p class="summary">Suministro de equipos para puestos de trabajo.<br>Incluye entrega y puesta en marcha.<br>Comprueba las especificaciones y los plazos de suministro.</p>
+            </article>
+            <p class="small">En el aviso real, cada licitación incluirá su enlace al anuncio oficial.</p>
+          </div>
+        </article>
+        <p class="example-note">Ejemplo ilustrativo. Organismos, contratos, importes y plazos ficticios; no son oportunidades vigentes ni enlaces de contratación.</p>
+      </div>
+    </section>
+
+    <section class="section wrap" id="precio" aria-labelledby="precio-title">
+      <div class="price-layout">
+        <div class="price-copy">
+          <p class="eyebrow">Precio</p>
+          <h2 id="precio-title">Una cuota clara.<br>La decisión es tuya.</h2>
+          <p>Para empresas que quieren seguir las oportunidades de contratación pública con un criterio definido y sin búsquedas diarias.</p>
+          <p class="founders">La primera versión se construye con los primeros diez clientes. Sus necesidades ayudarán a afinar los filtros y el formato del aviso.</p>
+        </div>
+        <article class="price-card" aria-label="Plan mensual de Licitona">
+          <h3>Tu aviso diario</h3>
+          <p class="price">149 €<span> / mes</span></p>
+          <p class="small">Sin permanencia.</p>
+          <ul class="included">
+            <li>Filtros por sector e importe</li>
+            <li>Aviso el mismo día de publicación en la revisión diaria</li>
+            <li>Resumen en tres líneas por licitación</li>
+            <li>Enlace al anuncio oficial</li>
+            <li>Cancelas cuando quieras</li>
+          </ul>
+          <a class="button" href="mailto:gestionlicitona@gmail.com?subject=Quiero%20probar%20Licitona">Quiero probarlo</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section wrap" aria-labelledby="faq-title">
+      <div class="faq-layout">
+        <div>
+          <p class="eyebrow">Preguntas frecuentes</p>
+          <h2 id="faq-title">Antes de empezar.</h2>
+        </div>
+        <div>
+          <details>
+            <summary>¿Licitona prepara o presenta las ofertas?</summary>
+            <p>No. El servicio selecciona y resume anuncios para facilitar su revisión. Tu empresa debe comprobar los pliegos, valorar los requisitos y preparar la oferta. Recibir un aviso no garantiza que puedas presentarte ni obtener una adjudicación.</p>
+          </details>
+          <details>
+            <summary>¿Cuándo recibiré los avisos?</summary>
+            <p>El envío se realiza cada mañana con los anuncios que coincidan con tus filtros y estén disponibles al hacer la revisión. Los publicados después de ese corte pasarán a la revisión de la mañana siguiente.</p>
+          </details>
+          <details>
+            <summary>¿De dónde salen los datos?</summary>
+            <p>De la Plataforma de Contratación del Sector Público. El resumen es orientativo: el anuncio y los pliegos oficiales son la referencia para confirmar importes, fechas, requisitos y posibles cambios.</p>
+          </details>
+          <details>
+            <summary>¿Cómo empiezo y cómo puedo cancelar?</summary>
+            <p>Escribe a <a href="mailto:gestionlicitona@gmail.com">gestionlicitona@gmail.com</a> y cuéntanos tu actividad. Definiremos contigo los filtros y las condiciones antes de empezar. Puedes solicitar la cancelación en ese mismo correo, sin permanencia.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing" id="contacto" aria-labelledby="contacto-title">
+      <div class="closing-inner wrap">
+        <div>
+          <h2 id="contacto-title">Cuéntanos a qué se dedica tu empresa.</h2>
+          <p>Empezamos por ahí. Te ayudamos a definir qué licitaciones quieres recibir.</p>
+        </div>
+        <a class="button" href="mailto:gestionlicitona@gmail.com?subject=Quiero%20probar%20Licitona">Quiero probarlo</a>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    Licitona · Datos de la Plataforma de Contratación del Sector Público · <a href="mailto:gestionlicitona@gmail.com">gestionlicitona@gmail.com</a>
+    <div class="wrap">
+      <div class="footer-top">
+        <a class="brand" href="#" aria-label="Licitona, volver al inicio">Licitona</a>
+        <a href="mailto:gestionlicitona@gmail.com">gestionlicitona@gmail.com</a>
+      </div>
+      <p class="source-note">Los datos del servicio proceden de la <a href="https://contrataciondelestado.es/">Plataforma de Contratación del Sector Público</a>. Licitona es un servicio independiente. Consulta siempre la documentación oficial antes de tomar una decisión.</p>
+    </div>
   </footer>
-
-</div>
 </body>
 </html>
