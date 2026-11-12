@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Licitona — Vigilancia de licitaciones públicas</title>
+<meta name="description" content="Cada mañana, en tu correo, solo las licitaciones públicas que encajan con tu empresa. Filtradas por sector, importe y plazo.">
+<style>
+  :root { --tinta:#101820; --gris:#5b6b7a; --linea:#e3e9ef; --acento:#0b6cf0; --fondo:#fbfcfe; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+         color:var(--tinta); background:var(--fondo); }
+  .wrap { max-width:820px; margin:0 auto; padding:28px 22px 64px; }
+  header { display:flex; align-items:center; gap:10px; padding:8px 0 40px; }
+  .logo { width:28px; height:28px; border-radius:8px; background:var(--tinta); position:relative; }
+  .logo::after { content:""; position:absolute; inset:8px 8px 8px 8px; border-radius:2px; background:var(--acento); }
+  .marca { font-weight:700; letter-spacing:-.02em; }
+  h1 { font-size:clamp(30px,5.5vw,46px); line-height:1.1; letter-spacing:-.03em; margin:0 0 18px; }
+  .sub { font-size:clamp(17px,2.4vw,21px); color:var(--gris); margin:0 0 34px; max-width:38ch; }
+  ul { list-style:none; padding:0; margin:0 0 38px; display:grid; gap:14px; }
+  li { padding-left:34px; position:relative; }
+  li::before { content:""; position:absolute; left:8px; top:.62em; width:9px; height:9px; border-radius:50%;
+               background:var(--acento); }
+  .caja { border:1px solid var(--linea); background:#fff; border-radius:16px; padding:26px; margin:0 0 28px; }
+  .precio { font-size:38px; font-weight:700; letter-spacing:-.03em; margin:0; }
+  .precio span { font-size:15px; font-weight:500; color:var(--gris); letter-spacing:0; }
+  .cta { display:inline-block; background:var(--tinta); color:#fff; text-decoration:none; font-weight:600;
+         padding:14px 22px; border-radius:11px; margin-top:18px; }
+  .cta:hover { background:#000; }
+  .nota { font-size:14px; color:var(--gris); border-left:3px solid var(--linea); padding-left:14px; margin:26px 0 0; }
+  footer { margin-top:56px; padding-top:20px; border-top:1px solid var(--linea); font-size:13px; color:var(--gris); }
+  a { color:var(--acento); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header><div class="logo" aria-hidden="true"></div><div class="marca">Licitona</div></header>
+
+  <h1>Cada mañana, en tu correo, solo las licitaciones que te interesan.</h1>
+  <p class="sub">La plataforma pública publica miles de licitaciones al año. Tu empresa no puede leerlas todas. Nosotros sí.</p>
+
+  <ul>
+    <li><strong>Filtradas por tu negocio.</strong> Sector, importe mínimo, ámbito geográfico y tipo de contrato. Lo que no encaja, no te llega.</li>
+    <li><strong>El mismo día que se publican.</strong> No un resumen semanal: el plazo para presentarse no espera.</li>
+    <li><strong>En tres líneas.</strong> Qué piden, cuánto pagan y hasta cuándo. Si quieres el pliego, vas al enlace oficial.</li>
+  </ul>
+
+  <div class="caja">
+    <p class="precio">149 €<span> / mes · sin permanencia</span></p>
+    <p style="color:var(--gris);margin:6px 0 0">Una licitación que ganes paga años de servicio. Una que pierdas por enterarte tarde, no.</p>
+    <a class="cta" href="mailto:gestionlicitona@gmail.com?subject=Quiero%20probar%20Licitona&body=Hola%3A%0A%0AMi%20empresa%20se%20dedica%20a%20...%20y%20me%20interesan%20licitaciones%20de%20...%0A%0AMi%20tel%C3%A9fono%3A%20">Quiero probarlo</a>
+  </div>
+
+  <p class="nota">Estamos empezando y lo decimos: la primera versión se construye con los primeros diez clientes. Si pruebas y no te sirve, te lo digo antes de cobrarte.</p>
+
+  <footer>
+    Licitona · Datos de la Plataforma de Contratación del Sector Público · <a href="mailto:gestionlicitona@gmail.com">gestionlicitona@gmail.com</a>
+  </footer>
+
+</div>
+</body>
+</html>
